@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're Invited!</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #000;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+      flex-direction: column;
+    }
+    #invitation {
+      display: none;
+      text-align: center;
+      animation: fadeIn 2s ease forwards;
+    }
+    #invitation img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    #start {
+      font-size: 1.5rem;
+      color: #fff;
+      opacity: 0.7;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="start">Press SPACEBAR to reveal your invitation</div>
+  <div id="invitation">
+    <img src="invitation-image.png" alt="You're Invited!" />
+  </div>
+
+  <audio id="partySong" src="your-song.mp3"></audio>
+
+  <script>
+    document.body.addEventListener('keydown', function(event) {
+      if (event.code === 'Space') {
+        const invitation = document.getElementById('invitation');
+        const start = document.getElementById('start');
+        const song = document.getElementById('partySong');
+
+        start.style.display = 'none';
+        invitation.style.display = 'block';
+        song.play();
+      }
+    });
+  </script>
+</body>
+</html>
