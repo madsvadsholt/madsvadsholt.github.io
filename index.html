@@ -40,7 +40,7 @@
   </style>
 </head>
 <body>
-  <div id="start">Press SPACEBAR to reveal your invitation</div>
+  <div id="start">Press SPACEBAR or TAP</div>
   <div id="invitation">
     <img src="invitation-image.png" alt="You're Invited!" />
   </div>
@@ -48,17 +48,25 @@
   <audio id="partySong" src="your-song.mp3"></audio>
 
   <script>
+    function revealInvitation() {
+      const invitation = document.getElementById('invitation');
+      const start = document.getElementById('start');
+      const song = document.getElementById('partySong');
+
+      start.style.display = 'none';
+      invitation.style.display = 'block';
+      song.play();
+    }
+
     document.body.addEventListener('keydown', function(event) {
       if (event.code === 'Space') {
-        const invitation = document.getElementById('invitation');
-        const start = document.getElementById('start');
-        const song = document.getElementById('partySong');
-
-        start.style.display = 'none';
-        invitation.style.display = 'block';
-        song.play();
+        revealInvitation();
       }
     });
+
+    document.body.addEventListener('touchstart', function() {
+      revealInvitation();
+    }, { once: true });
   </script>
 </body>
 </html>
