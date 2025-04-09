@@ -7,66 +7,99 @@
   <style>
     body {
       margin: 0;
+      padding: 0;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-color: #000;
-      color: white;
+      background-color: white;
+      color: black;
       font-family: 'Arial', sans-serif;
-      overflow: hidden;
-      flex-direction: column;
-    }
-    #invitation {
-      display: none;
       text-align: center;
-      animation: fadeIn 2s ease forwards;
     }
-    #invitation img {
+    #image-container {
+      height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img {
       max-width: 90vw;
-      max-height: 80vh;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      max-height: 100%;
+      display: none;
     }
-    #start {
-      font-size: 1.5rem;
-      color: #fff;
-      opacity: 0.7;
+    .final-animation {
+      animation: float 3s ease-in-out infinite;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    #instruction {
+      margin-top: 1rem;
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
-  <div id="start">Press SPACEBAR or TAP</div>
-  <div id="invitation">
-    <img src="invitation-image.png" alt="You're Invited!" />
+  <div id="image-container">
+    <img id="invitationImage" src="" alt="Invitation Image" />
   </div>
+  <div id="instruction">press spacebar or touch</div>
 
   <audio id="partySong" src="your-song.mp3"></audio>
+  <audio id="clickSound0" src="click1.mp3"></audio>
+  <audio id="clickSound1" src="click2.mp3"></audio>
+  <audio id="clickSound2" src="click3.mp3"></audio>
+  <audio id="clickSound3" src="click4.mp3"></audio>
+  <audio id="clickSound4" src="click5.mp3"></audio>
 
   <script>
-    function revealInvitation() {
-      const invitation = document.getElementById('invitation');
-      const start = document.getElementById('start');
-      const song = document.getElementById('partySong');
+    const images = [
+      'image1.png',
+      'image2.png',
+      'image3.png',
+      'image4.png',
+      'image5.png'
+    ];
 
-      start.style.display = 'none';
-      invitation.style.display = 'block';
-      song.play();
+    let currentIndex = -1;
+    const imgElement = document.getElementById('invitationImage');
+    const instruction = document.getElementById('instruction');
+    const song = document.getElementById('partySong');
+    const clickSounds = [
+      document.getElementById('clickSound0'),
+      document.getElementById('clickSound1'),
+      document.getElementById('clickSound2'),
+      document.getElementById('clickSound3'),
+      document.getElementById('clickSound4')
+    ];
+
+    function advanceImage() {
+      if (currentIndex < images.length - 1) {
+        currentIndex++;
+        imgElement.src = images[currentIndex];
+        imgElement.style.display = 'block';
+        clickSounds[currentIndex].play();
+
+        if (currentIndex === images.length - 1) {
+          imgElement.classList.add('final-animation');
+          song.play();
+        }
+      }
     }
 
-    document.body.addEventListener('keydown', function(event) {
-      if (event.code === 'Space') {
-        revealInvitation();
+    document.body.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        advanceImage();
       }
     });
 
-    document.body.addEventListener('touchstart', function() {
-      revealInvitation();
-    }, { once: true });
+    document.body.addEventListener('touchstart', () => {
+      advanceImage();
+    }, { once: false });
   </script>
 </body>
 </html>
